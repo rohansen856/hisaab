@@ -9,18 +9,45 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
-  TextEditingController ammount = TextEditingController();
+  late AnimationController _sliding; 
+  late Animation<Offset> _offsetAnimation;
 
   @override
   void initState(){
     super.initState();
+
+  _sliding = AnimationController(
+    duration: const Duration(milliseconds: 700),
+    vsync: this,
+  );
+  _offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(20, 0)
+  ).animate(CurvedAnimation(parent: _sliding, curve: Curves.ease));
+  _sliding.addStatusListener((status) {
+    if(status == AnimationStatus.completed){
+      _sliding.reset();
+    }
+  });
+  
     showMoney();
   }
 
+  TextEditingController ammount = TextEditingController();
+
+  @override
+  void dispose(){
+    _sliding.dispose();
+    super.dispose();
+  }
+
   void addMoney(){
-    context.read<MoneyDatabase>().addMoney(int.tryParse(ammount.text)??0);
+    if(int.tryParse(ammount.text) is int){
+      context.read<MoneyDatabase>().addMoney(int.tryParse(ammount.text)??0);
+      _sliding.forward();
+    }
     ammount.text = "";
     FocusScope.of(context).requestFocus(FocusNode());
   }
@@ -29,7 +56,6 @@ class _HomePageState extends State<HomePage> {
     context.read<MoneyDatabase>().getMoney();
   }
 
-  
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -56,7 +82,10 @@ class _HomePageState extends State<HomePage> {
                     hintText: "ammount",
                     hintStyle: const TextStyle(color: Color.fromARGB(170, 255, 255, 255)),
                     contentPadding: const EdgeInsets.symmetric(vertical: 17),
-                    prefixIcon: Icon(Icons.arrow_forward, color:  Theme.of(context).colorScheme.inversePrimary),
+                    prefixIcon: SlideTransition(
+                      position: _offsetAnimation, 
+                      child: Icon(Icons.arrow_forward, color:  Theme.of(context).colorScheme.inversePrimary),
+                    ),
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

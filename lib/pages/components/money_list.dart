@@ -42,7 +42,7 @@ class _MoneyListState extends State<MoneyList> {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("${money.date.hour}:${money.date.minute}"),
+                              Text("${money.date.hour}:${money.date.minute>9?money.date.minute:"0${money.date.minute}"}"),
                               const SizedBox(width: 10,),
                               GestureDetector(
                                 onTap: (){
