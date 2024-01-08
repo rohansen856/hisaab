@@ -39,6 +39,7 @@ dependencies:
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.1
   provider: ^6.1.1
+  lottie: ^2.7.0
 
 dev_dependencies:
   flutter_test:
@@ -98,7 +99,7 @@ flutter:
   fonts:
     - family: Inter
       fonts:
-        - asset: fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Regular.ttf
     - family: Rusilla
       fonts:
-        - asset: fonts/RusillaSerif.otf
+        - asset: assets/fonts/RusillaSerif.otf

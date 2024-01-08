@@ -23,12 +23,6 @@ class _HomePageState extends State<HomePage> {
     context.read<MoneyDatabase>().addMoney(int.tryParse(ammount.text)??0);
     ammount.text = "";
     FocusScope.of(context).requestFocus(FocusNode());
-    // showDialog(
-    //   context: context, 
-    //   builder: (context)=>const AlertDialog(
-    //     content: Center(child: Text("Added")),
-    //   )
-    // );
   }
 
   void showMoney(){
@@ -45,6 +39,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(top: 250, left: 30, right: 30),
             child: Column(
               children: [
+                // Lottie.asset('../assets/animations/done.json'),
                 TextField(
                   controller: ammount,
                   focusNode: _focusNode,
